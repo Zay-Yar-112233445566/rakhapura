@@ -1,0 +1,46 @@
+<div class="container-fluid hrow">
+    <div class="row">
+        <h4>ဘာသာရပ်ခွဲရမှတ်စာရင်းသွင်းခြင်း</h4>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="col-xs-1 col-sm-3 col-md-3"></div>
+    <div class="col-xs-10 col-sm-6 col-md-6">
+        <form [formGroup]="form" (ngSubmit)="save()" accept-charset="utf-8" htmlEscape="true"
+            enctype="multipart/form-data" autocomplete="off">
+            <div class="form-group">
+                <label>ဘာသာရပ်ကြီးစာမေးပွဲ</label>
+                <input type="text" class="form-control" value="{{subjectType.name}} ({{subjectType.grade.name}})" disabled>
+            </div>
+            <div class="form-group" formArrayName="markList">
+                <div *ngFor="let element of markList.controls; let i = index">
+                    <div [formGroupName]="i">
+                        <div class="form-group">
+                            <label>{{examSubjectList[i].subject.name}} (ဘာသာရပ်ခွဲရမှတ်)<span
+                                    class="star">*</span></label>
+                            <input type="text" formControlName="mark" class="form-control" autocomplete="off" />
+                            <div
+                                *ngIf="submitted || markList.controls[i].get('mark')!.invalid && markList.controls[i].get('mark')!.touched">
+                                <div *ngIf="markList.controls[i].get('mark')!.errors?.['rangeError']" class="txt-error">
+                                    Must be between 0
+                                    and {{examSubjectList[i].markPercentage}} (full mark)
+                                </div>
+                                <div *ngIf="markList.controls[i].get('mark')!.errors?.['required']" class="txt-error">
+                                    Field is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="lbtn">
+                    <button type="submit" class="bsearch btn">Save</button>
+                    <button type="button" class="bsearch btn" (click)="reset()">Reset</button>
+                    <button type="button" class="bsearch btn" (click)="back()">Back</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col-xs-1 col-sm-3 col-md-3"></div>
+</div>

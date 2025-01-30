@@ -1,0 +1,104 @@
+<div class="container-fluid page">
+    <div class="row">
+        <h2>အောင်စာရင်းရှာဖွေခြင်း</h2>
+    </div>
+    <div class="row">
+        <div class="col-xs-1 col-sm-3 col-md-3"></div>
+        <div class="col-xs-10 col-sm-6 col-md-6">
+            <form [formGroup]="form" (ngSubmit)="search()" accept-charset="utf-8" htmlEscape="true"
+                enctype="multipart/form-data" autocomplete="off">
+                <div class="form-group">
+                    <label>စာသင်နှစ်<span class="star">*</span></label>
+                    <select formControlName="academicYear" class="form-control">
+                        <option [ngValue]="''">Choose</option>
+                        <option *ngFor="let a of academicYearList" [ngValue]="a.id">
+                            {{a.name}}
+                        </option>
+                    </select>
+                    <div *ngIf="submitted || form.get('academicYear')!.invalid && form.get('academicYear')!.touched">
+                        <div *ngIf="form.get('academicYear')!.errors?.['required']" class="txt-error">Field is required
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>စာမေးပွဲခေါင်းစဉ်<span class="star">*</span></label>
+                    <select formControlName="examTitle" class="form-control">
+                        <option [ngValue]="''">Choose</option>
+                        <option *ngFor="let e of examTitleList" [ngValue]="e.id">
+                            {{e.name}}
+                        </option>
+                    </select>
+                    <div *ngIf="submitted || form.get('examTitle')!.invalid && form.get('examTitle')!.touched"
+                        class="txt-error">
+                        <div *ngIf="form.get('examTitle')!.errors?.['required']" class="txt-error">Field is required
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>အတန်း<span class="star">*</span></label>
+                    <select formControlName="grade" class="form-control">
+                        <option [ngValue]="''">Choose</option>
+                        <option *ngFor="let g of gradeList" [ngValue]="g.id">
+                            {{g.name}}
+                        </option>
+                    </select>
+                    <div *ngIf="submitted || form.get('grade')!.invalid && form.get('grade')!.touched"
+                        class="txt-error">
+                        <div *ngIf="form.get('grade')!.errors?.['required']" class="txt-error">Field is required</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>ခုံနံပါတ်/အမည်/အဖအမည်</label>
+                    <input type="text" formControlName="keyword" class="form-control" autocomplete="off"
+                        placeholder="Filter Search" />
+                    <div *ngIf="submitted || form.get('keyword')!.invalid && form.get('keyword')!.touched">
+                        <div *ngIf="form.get('keyword')!.errors?.['pattern']" class="txt-error">Must not include special
+                            characters
+                        </div>
+                        <div *ngIf="form.get('keyword')!.errors?.['startingWithWhiteSpace']" class="txt-error">Must not
+                            start with
+                            space</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="lbtn">
+                        <button type="submit" class="btn bsearch">Search</button>
+                        <button type="button" class="btn bsearch" (click)="reset()">Reset</button>
+                        <button type="button" class="btn bsearch" (click)="back()">Back</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-xs-1 col-sm-3 col-md-3"></div>
+    </div>
+    <div class="row table-responsive" *ngIf="valid" style="overflow-y: hidden; width: 75%; margin: auto">
+        <table class="table table-bordered exptable" *ngIf="sortedData.length != 0" id="myTable" matSort
+            (matSortChange)="sortData($event)">
+            <thead>
+                <tr>
+                    <th style="width: 80px" mat-sort-header="index">စဉ်</th>
+                    <th style="width: 100px" mat-sort-header="regNo">ခုံနံပါတ်</th>
+                    <th style="width: 100px" mat-sort-header="name">အမည်</th>
+                    <th style="width: 100px" mat-sort-header="fatherName">အဖအမည်</th>
+                    <th style="width: 100px" mat-sort-header="monasteryHeadmaster">ကျောင်းထိုင်ဆရာတော်</th>
+                    <th style="width: 100px" mat-sort-header="monasteryName">ကျောင်းတိုက်</th>
+                    <th style="width: 100px" mat-sort-header="region">ပြည်နယ်/တိုင်း</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let element of sortedData">
+                    <td>{{element.index}}</td>
+                    <td>{{element.studentClass.regNo}}</td>
+                    <td>{{element.studentClass.student.name}}</td>
+                    <td>{{element.studentClass.student.fatherName}}</td>
+                    <td>{{element.studentClass.student.monasteryHeadmaster}}</td>
+                    <td>{{element.studentClass.student.monasteryName}}</td>
+                    <td>{{element.studentClass.student.region.name}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <h2 style="color: red;" *ngIf="dataList.length == 0">No record found!</h2>
+        <app-page-navigator [currentPage]="currentPage" [totalPageCount]="pageData.totalPages"
+            *ngIf="dataList.length != 0" (enterPaginationEvent)="enterPaginationEvent($event)"></app-page-navigator>
+    </div>
+</div>

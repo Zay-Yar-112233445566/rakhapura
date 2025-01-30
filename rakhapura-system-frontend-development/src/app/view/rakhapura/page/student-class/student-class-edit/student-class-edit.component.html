@@ -1,0 +1,77 @@
+<div class="container-fluid hrow">
+    <div class="row">
+        <h4>ဖြေဆိုမည့်စာသင်သားအား အခန်းနေရာချထားခြင်းအားပြင်ခြင်း</h4>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="col-xs-1 col-sm-3 col-md-3"></div>
+    <div class="col-xs-10 col-sm-6 col-md-6">
+        <form [formGroup]="form" (ngSubmit)="update()" accept-charset="utf-8" htmlEscape="true"
+            enctype="multipart/form-data" autocomplete="off">
+            <div class="form-group">
+                <label>စာသင်နှစ်<span class="star">*</span></label>
+                <select formControlName="academicYear" (change)="change()" class="form-control">
+                    <option [ngValue]="''">Choose</option>
+                    <option *ngFor="let a of academicYearList" [ngValue]="a.id">
+                        {{a.name}}
+                    </option>
+                </select>
+                <div *ngIf="submitted || form.get('academicYear')!.invalid && form.get('academicYear')!.touched">
+                    <div *ngIf="form.get('academicYear')!.errors?.['required']" class="txt-error">Field is required</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>စာမေးပွဲခေါင်းစဉ်<span class="star">*</span></label>
+                <select formControlName="examTitle" class="form-control">
+                    <option [ngValue]="''">Choose</option>
+                    <option *ngFor="let e of examTitleList" [ngValue]="e.id">
+                        {{e.name}}
+                    </option>
+                </select>
+                <div *ngIf="submitted || form.get('examTitle')!.invalid && form.get('examTitle')!.touched">
+                    <div *ngIf="form.get('examTitle')!.errors?.['required']" class="txt-error">Field is required</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>အတန်း<span class="star">*</span></label>
+                <select formControlName="grade" (change)="change()" class="form-control">
+                    <option [ngValue]="''">Choose</option>
+                    <option *ngFor="let g of gradeList" [ngValue]="g.id">
+                        {{g.name}}
+                    </option>
+                </select>
+                <div *ngIf="submitted || form.get('grade')!.invalid && form.get('grade')!.touched">
+                    <div *ngIf="form.get('grade')!.errors?.['required']" class="txt-error">Field is required</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>အခန်း<span class="star">*</span></label>
+                <select formControlName="class" class="form-control">
+                    <option [ngValue]="''">Choose</option>
+                    <option *ngFor="let c of classList" [ngValue]="c.id">
+                        {{c.name}}
+                    </option>
+                </select>
+                <div *ngIf="submitted || form.get('class')!.invalid && form.get('class')!.touched">
+                    <div *ngIf="form.get('class')!.errors?.['required']" class="txt-error">Field is required</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>စာသင်သားအမည်</label>
+                <input type="text" class="form-control" value="{{studentName}}" disabled>
+            </div>
+            <div class="form-group">
+                <label>အဖအမည်</label>
+                <input type="text" class="form-control" value="{{fatherName}}" disabled>
+            </div>
+            <div class="form-group">
+                <div class="lbtn">
+                    <button type="submit" class="bsearch btn">Update</button>
+                    <button type="button" class="bsearch btn" (click)="reset()">Reset</button>
+                    <button type="button" class="bsearch btn" (click)="back()">Back</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col-xs-1 col-sm-3 col-md-3"></div>
+</div>
